@@ -11,8 +11,13 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault()
         setLoading(true)
-        const { data } = await axios.get("https://jsonplaceholder.typicode.com/users/1")
-        setUser(data)
+        try {
+            const { data } = await axios.get("https://jsonplaceholder.typicode.com/users/1")
+            setUser(data)
+        } catch (error) {
+            setError(error)
+        }
+        setLoading(false)
     }
     return (
         <div>
@@ -24,7 +29,8 @@ const Login = () => {
             >
                 Something went wrong!
             </span>
-            <div><button disabled={!username || !password} onClick={handleLogin}>Login</button></div>
+            <p>{user.name}</p>
+            <div><button disabled={!username || !password} onClick={handleLogin}>{loading ? 'please wait' : 'Login'}</button></div>
         </div>
     )
 }
